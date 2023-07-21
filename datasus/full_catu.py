@@ -88,7 +88,7 @@ def db5_to_dataframe(filename_dbf = "current.dbf", save_name="output.xlsx"):
     for df in dbf.to_dataframe(chunksize=1000000):
         if pandas_df is None:
             pandas_df = df.drop(columns = ['PA_CODUNI', 'PA_GESTAO', 'PA_CONDIC', 'PA_REGCT',
-        'PA_INCOUT', 'PA_INCURG', 'PA_TIPPRE', 'PA_MN_IND',
+        'PA_INCOUT', 'PA_TIPPRE', 'PA_MN_IND',# 'PA_INCURG'
         'PA_CNPJCPF', 'PA_CNPJMNT', 'PA_CNPJ_CC', #'PA_MVMR',
             'PA_TPFIN', 'PA_SUBFIN', 'PA_NIVCPL', 'PA_DOCORIG',
         'PA_AUTORIZ', 'PA_CNSMED', 'PA_MOTSAI', 'PA_OBITO',
@@ -101,7 +101,7 @@ def db5_to_dataframe(filename_dbf = "current.dbf", save_name="output.xlsx"):
         'PA_VL_INC', 'PA_SRV_C'], errors='ignore')
         else:
             pandas_df = pd.concat([pandas_df, df.drop(columns = ['PA_CODUNI', 'PA_GESTAO', 'PA_CONDIC', 'PA_REGCT',
-            'PA_INCOUT', 'PA_INCURG', 'PA_TIPPRE', 'PA_MN_IND',
+            'PA_INCOUT', 'PA_TIPPRE', 'PA_MN_IND',#, 'PA_INCURG'
             'PA_CNPJCPF', 'PA_CNPJMNT', 'PA_CNPJ_CC', #'PA_MVMR',
                 'PA_TPFIN', 'PA_SUBFIN', 'PA_NIVCPL', 'PA_DOCORIG',
             'PA_AUTORIZ', 'PA_CNSMED', 'PA_MOTSAI', 'PA_OBITO',
@@ -129,10 +129,11 @@ def db5_to_dataframe(filename_dbf = "current.dbf", save_name="output.xlsx"):
 
     #df_pivot.head()
 
-    df_pivot_sum = pandas_df.pivot_table(index = ['PA_PROC_ID', 'PA_UFMUN'], aggfunc ='size')
+    df_pivot_sum = pandas_df.pivot_table(index = ['PA_PROC_ID', 'PA_UFMUN', 'PA_INCURG', 'PA_TPUPS'], aggfunc ='size')
 
     df_pivot_sum.to_excel(f"output/PA_PROC_ID_{save_name}", engine='xlsxwriter') 
 
+    #no need to work on this again
     df_no.to_excel(f"output/PA_CBOCOD_{save_name}", engine='xlsxwriter') 
 
 
